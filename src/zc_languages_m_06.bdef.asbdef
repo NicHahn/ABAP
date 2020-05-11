@@ -1,6 +1,6 @@
 projection;
 
-define behavior for ZC_Languages_M_06 //alias <alias_name>
+define behavior for ZC_Languages_M_06 alias TravelProcessor
 {
   use create;
   use update;

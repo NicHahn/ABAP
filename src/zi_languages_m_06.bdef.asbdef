@@ -21,7 +21,15 @@ lock master
   update;
   delete;
 
-   validation validateRating on save
+  // validations
+   validation validateName on save
+  { field name; }
+
+    validation validateYear on save
+  { field publishing_year; }
+
+    validation validateRating on save
   { field rating; }
 
 }
+

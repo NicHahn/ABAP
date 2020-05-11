@@ -4,25 +4,108 @@ CLASS lhc_Language DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS validateRating FOR VALIDATION Language~validateRating
       IMPORTING keys FOR Language.
 
+   METHODS validateName FOR VALIDATION Language~validateName
+      IMPORTING keys FOR Language.
+
+    METHODS validateYear FOR VALIDATION Language~validateYear
+      IMPORTING keys FOR Language.
+
 ENDCLASS.
 
 CLASS lhc_Language IMPLEMENTATION.
 
-  METHOD validateRating.
+**********************************************************************
+*
+* Check name is not empty
+*
+**********************************************************************
 
-    READ ENTITY ZI_Languages_M_06\\language FROM VALUE #(
+
+  METHOD validateName.
+
+    READ ENTITY ZI_Languages_M_06\\Language FROM VALUE #(
         FOR <root_key> IN keys ( %key = <root_key>
-        %control = VALUE #( id = if_abap_behv=>mk-on ) ) )
+                                %control = VALUE #( name = if_abap_behv=>mk-on ) ) )
         RESULT DATA(lt_language).
 
-    DATA lt_languages TYPE SORTED TABLE OF zlanguages_06 WITH UNIQUE KEY id.
 
-    " Optimization of DB select: extract distinct non-initial customer IDs
-    lt_languages = CORRESPONDING #( lt_language DISCARDING DUPLICATES MAPPING id = id EXCEPT * ).
-    DELETE lt_languages WHERE publishing_year IS INITIAL.
-    "DELETE lt_languages WHERE rating = 3.
-    CHECK lt_languages IS NOT INITIAL.
+    " Raise msg for non existing name
+    LOOP AT lt_language INTO DATA(ls_language).
+      IF ls_language-name is INITIAL.
+        APPEND VALUE #(  %key = ls_language-%key
+                            id = ls_language-id ) TO failed.
+        APPEND VALUE #( %key = ls_language-%key
+                  %msg  = new_message(
+                    id   = 'ZHSKA06' "Message Class
+                    number = '001' "Number
+                    severity = if_abap_behv_message=>severity-error )
+                  %element-id = if_abap_behv=>mk-on ) TO reported.
+      ENDIF.
+
+    ENDLOOP.
 
   ENDMETHOD.
+
+**********************************************************************
+*
+* Check validity of rating
+*
+**********************************************************************
+
+Method validateRating.
+
+READ ENTITY ZI_Languages_M_06\\Language FROM VALUE #(
+        FOR <root_key> IN keys ( %key = <root_key>
+                                %control = VALUE #( rating = if_abap_behv=>mk-on ) ) )
+        RESULT DATA(lt_language).
+
+
+    " Raise msg for wrong rating
+    LOOP AT lt_language INTO DATA(ls_language).
+      IF ls_language-rating not BETWEEN 1 and 5.
+        APPEND VALUE #(  %key = ls_language-%key
+                            id = ls_language-id ) TO failed.
+        APPEND VALUE #( %key = ls_language-%key
+                  %msg  = new_message(
+                    id   = 'ZHSKA06' "Message Class
+                    number = '003' "Number
+                    severity = if_abap_behv_message=>severity-error )
+                  %element-id = if_abap_behv=>mk-on ) TO reported.
+      ENDIF.
+
+   ENDLOOP.
+
+ENDMETHOD.
+
+**********************************************************************
+*
+* Check if publishing_year is not empty
+*
+**********************************************************************
+
+Method validateYear.
+
+    READ ENTITY ZI_Languages_M_06\\Language FROM VALUE #(
+        FOR <root_key> IN keys ( %key = <root_key>
+                                %control = VALUE #( publishing_year = if_abap_behv=>mk-on ) ) )
+        RESULT DATA(lt_language).
+
+
+    " Raise msg for non existing year
+    LOOP AT lt_language INTO DATA(ls_language).
+      IF ls_language-publishing_year is INITIAL.
+        APPEND VALUE #(  %key = ls_language-%key
+                            id = ls_language-id ) TO failed.
+        APPEND VALUE #( %key = ls_language-%key
+                  %msg  = new_message(
+                    id   = 'ZHSKA06' "Message Class
+                    number = '002' "Number
+                    severity = if_abap_behv_message=>severity-error )
+                  %element-id = if_abap_behv=>mk-on ) TO reported.
+      ENDIF.
+
+    ENDLOOP.
+
+endmethod.
 
 ENDCLASS.
