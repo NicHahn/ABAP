@@ -6,5 +6,6 @@ define behavior for ZC_Languages_M_06 alias TravelProcessor
   use update;
   use delete;
 
+  use action setFavourite;
 
 }

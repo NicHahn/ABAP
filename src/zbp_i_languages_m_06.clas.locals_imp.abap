@@ -10,6 +10,8 @@ CLASS lhc_Language DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS validateYear FOR VALIDATION Language~validateYear
       IMPORTING keys FOR Language.
 
+    METHODS setFavourite FOR MODIFY IMPORTING keys FOR ACTION Language~setFavourite RESULT result.
+
 ENDCLASS.
 
 CLASS lhc_Language IMPLEMENTATION.
@@ -62,7 +64,7 @@ READ ENTITY ZI_Languages_M_06\\Language FROM VALUE #(
 
     " Raise msg for wrong rating
     LOOP AT lt_language INTO DATA(ls_language).
-      IF ls_language-rating not BETWEEN 1 and 5.
+      if ls_language-rating is not INITIAL and ( ls_language-rating not BETWEEN 1 and 5 ).
         APPEND VALUE #(  %key = ls_language-%key
                             id = ls_language-id ) TO failed.
         APPEND VALUE #( %key = ls_language-%key
@@ -93,7 +95,7 @@ Method validateYear.
 
     " Raise msg for non existing year
     LOOP AT lt_language INTO DATA(ls_language).
-      IF ls_language-publishing_year is INITIAL.
+      IF ls_language-publishing_year is INITIAL or NOT ( ls_language-publishing_year CO '0123456789' ).
         APPEND VALUE #(  %key = ls_language-%key
                             id = ls_language-id ) TO failed.
         APPEND VALUE #( %key = ls_language-%key
@@ -107,5 +109,10 @@ Method validateYear.
     ENDLOOP.
 
 endmethod.
+
+  METHOD setFavourite.
+
+
+  ENDMETHOD.
 
 ENDCLASS.

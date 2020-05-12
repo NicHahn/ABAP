@@ -1,5 +1,6 @@
 @EndUserText.label: 'Language projection view - Processor'
 @AccessControl.authorizationCheck: #CHECK
+
 @Search.searchable: true
 
 define root view entity ZC_Languages_M_06 as projection on ZI_languages_M_06 {
@@ -40,8 +41,17 @@ define root view entity ZC_Languages_M_06 as projection on ZI_languages_M_06 {
       @UI: {
         lineItem:       [ { position: 50, importance: #HIGH, type: #AS_DATAPOINT } ],
         identification: [ { position: 50, label: 'Rating [0-5]' } ],
-        dataPoint: { title: 'Programming Language Rating', visualization: #RATING, targetValue: 5 } }
-      rating            as Rating
+        dataPoint: { title: 'Rating', visualization: #RATING, targetValue: 5 } }
+      rating            as Rating,
+      
+      
+     
+      @UI: { 
+             lineItem: [ { position: 60, importance: #HIGH } ] ,
+             //{ type: #FOR_ACTION, dataAction: 'setFavourite', label: 'Accept Travel' } ],
+            identification: [ { position: 60, label: 'Status [F(Favourite)]' } ] }
+     favourite as Favourite
+   
 
       
     

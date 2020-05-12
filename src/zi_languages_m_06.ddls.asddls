@@ -9,6 +9,8 @@ define root view ZI_languages_M_06 as select from zlanguages_06 {
     name,
     publishing_year,
     website_url,
-    rating
+    rating,
+    favourite
+    
     
 }
