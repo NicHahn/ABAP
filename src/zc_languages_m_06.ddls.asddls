@@ -3,6 +3,11 @@
 
 @Search.searchable: true
 
+@UI.headerInfo: {
+        typeName: 'Programm Language',
+        typeNamePlural: 'Programm Languages'
+    }
+
 define root view entity ZC_Languages_M_06 as projection on ZI_languages_M_06 {
     
     @UI.facet: [ { id:              'Language',
@@ -25,33 +30,33 @@ define root view entity ZC_Languages_M_06 as projection on ZI_languages_M_06 {
       name              as Name,
 
       @UI: {
-          lineItem:       [ { position: 30, importance: #MEDIUM } ],
+          lineItem:       [ { position: 30, importance: #HIGH, label: 'Publishing Year' } ],
           identification: [ { position: 30, label: 'Publishing year' } ] }
       publishing_year   as Publishing_Year,
 
       
 
       @UI: {
-          lineItem:       [ { position: 40, importance: #HIGH } ],
-          identification: [ { position: 40, label: 'Website URL' } ] }
+          lineItem:       [ { position: 40, importance: #HIGH, type: #WITH_URL, url: 'Website_URL', label: 'Website' } ],
+          identification: [ { position: 40, type: #WITH_URL, url: 'Website_URL', label: 'Website' } ] }
       website_url as Website_URL,
 
       
 
       @UI: {
         lineItem:       [ { position: 50, importance: #HIGH, type: #AS_DATAPOINT } ],
-        identification: [ { position: 50, label: 'Rating [0-5]' } ],
-        dataPoint: { title: 'Rating', visualization: #RATING, targetValue: 5 } }
+        identification: [ { position: 50, label: 'Rating [1-100]' } ],
+        dataPoint: { title: 'Rating', visualization: #PROGRESS, targetValue: 100 } }
       rating            as Rating,
       
       
      
       @UI: { 
-             lineItem: [ { position: 60, importance: #HIGH } ] ,
-             //{ type: #FOR_ACTION, dataAction: 'setFavourite', label: 'Accept Travel' } ],
-            identification: [ { position: 60, label: 'Status [F(Favourite)]' } ] }
+             lineItem: [ { position: 45, importance: #HIGH }, 
+             { type: #FOR_ACTION, dataAction: 'setFavourite', label: 'Mark as favourite' },
+             { type: #FOR_ACTION, dataAction: 'detachFavourite', label: 'Remove favourite' } ],
+            identification: [ { position: 45, label: 'Status [F(Favourite)]' } ] }
      favourite as Favourite
-   
 
       
     

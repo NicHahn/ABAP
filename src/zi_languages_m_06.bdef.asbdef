@@ -21,6 +21,12 @@ lock master
   update;
   delete;
 
+  // instance action and dynamic action control   ( features : instance )
+  action ( features : instance ) setFavourite result [1] $self;
+
+  action ( features : instance ) detachFavourite result [1] $self;
+
+
   // validations
    validation validateName on save
   { field name; }
@@ -31,7 +37,5 @@ lock master
     validation validateRating on save
   { field rating; }
 
-   // instance action and dynamic action control
-  action ( features : instance ) setFavourite result [1] $self;
 
 }
