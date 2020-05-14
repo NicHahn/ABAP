@@ -119,7 +119,7 @@ endmethod.
     MODIFY ENTITIES OF ZI_Languages_M_06 IN LOCAL MODE
            ENTITY Language
               UPDATE FROM VALUE #( FOR key IN keys ( id = key-id
-                                                     favourite = '<3' " Favourite
+                                                     favourite = '♥' " Favourite
                                                      %control-favourite = if_abap_behv=>mk-on ) )
            FAILED   failed
            REPORTED reported.
@@ -187,7 +187,7 @@ endmethod.
 
     result = VALUE #( FOR ls_language IN lt_langauge
                        ( %key                           = ls_language-%key
-                         %features-%action-setFavourite = COND #( WHEN ls_language-favourite = '<3'
+                         %features-%action-setFavourite = COND #( WHEN ls_language-favourite = '♥'
                                                                     THEN if_abap_behv=>fc-o-disabled ELSE if_abap_behv=>fc-o-enabled   )
                         %features-%action-detachFavourite = COND #( WHEN ls_language-favourite = ''
                                                                     THEN if_abap_behv=>fc-o-disabled ELSE if_abap_behv=>fc-o-enabled   )

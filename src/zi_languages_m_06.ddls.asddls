@@ -3,7 +3,9 @@
 @AbapCatalog.preserveKey: true
 @AccessControl.authorizationCheck: #CHECK
 @EndUserText.label: 'Languages'
-define root view ZI_languages_M_06 as select from zlanguages_06 {
+define root view ZI_languages_M_06 as select from zlanguages_06
+    {
+    
 
     key id,
     name,
