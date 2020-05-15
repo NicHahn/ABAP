@@ -16,6 +16,8 @@ lock master
   // mandatory fields that are required to create a Language
   field ( mandatory ) name, publishing_year;
 
+  field (readonly) favourite;
+
   // standard operations for langauge entity
   create;
   update;

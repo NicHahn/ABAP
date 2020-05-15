@@ -37,9 +37,8 @@ define root view entity ZC_Languages_M_06
 
 
       @UI: {
-          lineItem:       [ { position: 20, importance: #HIGH } ],
-          identification: [ { position: 1, label: 'Programming Language' } ] ,
-          dataPoint: { title: 'Programming Language'}}
+          lineItem:       [ { position: 20, importance: #HIGH, label: 'Name' } ],
+          identification: [ { position: 1, label: 'Programming Language' } ] }
       @Search.defaultSearchElement: true
       name            as Name,
 
